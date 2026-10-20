@@ -73,7 +73,11 @@ export async function checkOpenAI(query: string, apiKey: string, brand: GeoBrand
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' },
     body: JSON.stringify({
-      model: 'gpt-4o-search-preview',
+      // gpt-4o-search-preview was retired (404 "has been deprecated", Oct 2026).
+      // gpt-5-search-api is its successor on the same surface. GPT-5 models take
+      // max_completion_tokens, and the search model rejects temperature.
+      model: 'gpt-5-search-api',
+      max_completion_tokens: 4000,
       messages: [{ role: 'user', content: query + PROMPT_SUFFIX }],
     }),
   });
