@@ -38,21 +38,19 @@ Everything client-specific is the `GeoBrand` and the query set. Nothing else.
 import { ENGINES, extractStructured, type GeoBrand } from '@mmm/geo';
 
 export const brand: GeoBrand = {
-  name: 'American Roofing',
-  mention: /american roofing(?:\s+(?:and|&)\s+construction)?\b/i,
-  domain: /americanroofingok\.com/i,
+  name: 'Example Roofing',
+  mention: /example roofing(?:\s+(?:and|&)\s+construction)?\b/i,
+  domain: /example-roofing\.com/i,
   kind: 'commercial roofing contractors',
-  aliases: ['American Roofing and Construction'],
+  aliases: ['Example Roofing and Construction'],
 };
 ```
 
 ### `kind` is not decoration
 
-It exists because of a real bug. American Roofing's tracker was ported from a
-med-spa client, and its competitor-extraction prompt still asked the model to
-*"list the specific businesses / med spas / practices it recommends"* — on a
-commercial roofing account, in production. Nobody noticed, because the output
-still looked like a list of businesses.
+It names the client's vertical, and the extraction prompts are built from it.
+Without it, a tracker copied from one client to another can keep asking about the
+previous client's kind of business, and the output still looks plausible.
 
 Making the vertical a required field means a port cannot silently keep the
 previous client's wording.
